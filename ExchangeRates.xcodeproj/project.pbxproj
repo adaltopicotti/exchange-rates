@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		C817EC642AE1FB0D004AFF3B /* RatesFluctuationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C817EC632AE1FB0D004AFF3B /* RatesFluctuationView.swift */; };
 		C817EC662AE20A02004AFF3B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C817EC652AE20A02004AFF3B /* Extensions.swift */; };
+		C817EC682AE34DE7004AFF3B /* RateFluctuationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C817EC672AE34DE7004AFF3B /* RateFluctuationDetailView.swift */; };
+		C817EC6B2AE35554004AFF3B /* TimeRangeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = C817EC6A2AE35554004AFF3B /* TimeRangeEnum.swift */; };
 		C89082D62ADF4B54000C1195 /* BaseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89082D52ADF4B54000C1195 /* BaseStore.swift */; };
 		C89082D92AE00B0C000C1195 /* RatesFluctuationObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89082D82AE00B0C000C1195 /* RatesFluctuationObject.swift */; };
 		C89082DB2AE00E60000C1195 /* CurrencySymbolObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89082DA2AE00E60000C1195 /* CurrencySymbolObject.swift */; };
@@ -31,6 +33,8 @@
 /* Begin PBXFileReference section */
 		C817EC632AE1FB0D004AFF3B /* RatesFluctuationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatesFluctuationView.swift; sourceTree = "<group>"; };
 		C817EC652AE20A02004AFF3B /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		C817EC672AE34DE7004AFF3B /* RateFluctuationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateFluctuationDetailView.swift; sourceTree = "<group>"; };
+		C817EC6A2AE35554004AFF3B /* TimeRangeEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeRangeEnum.swift; sourceTree = "<group>"; };
 		C89082D52ADF4B54000C1195 /* BaseStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseStore.swift; sourceTree = "<group>"; };
 		C89082D82AE00B0C000C1195 /* RatesFluctuationObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatesFluctuationObject.swift; sourceTree = "<group>"; };
 		C89082DA2AE00E60000C1195 /* CurrencySymbolObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencySymbolObject.swift; sourceTree = "<group>"; };
@@ -67,8 +71,17 @@
 			children = (
 				C894F5A42ACE1451006AFCD3 /* ContentView.swift */,
 				C817EC632AE1FB0D004AFF3B /* RatesFluctuationView.swift */,
+				C817EC672AE34DE7004AFF3B /* RateFluctuationDetailView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		C817EC692AE35538004AFF3B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C817EC6A2AE35554004AFF3B /* TimeRangeEnum.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		C89082D42ADF4B39000C1195 /* Stores */ = {
@@ -128,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				C894F5B02ACE1D5A006AFCD3 /* DataProviders */,
+				C817EC692AE35538004AFF3B /* Models */,
 				C817EC622AE1FAE3004AFF3B /* Views */,
 				C894F5A22ACE1451006AFCD3 /* ExchangeRatesApp.swift */,
 				C817EC652AE20A02004AFF3B /* Extensions.swift */,
@@ -266,9 +280,11 @@
 				C89082E32AE01478000C1195 /* DataProviderManager.swift in Sources */,
 				C89082EB2AE01703000C1195 /* CurrencySymbolsDataProvider.swift in Sources */,
 				C89082D92AE00B0C000C1195 /* RatesFluctuationObject.swift in Sources */,
+				C817EC682AE34DE7004AFF3B /* RateFluctuationDetailView.swift in Sources */,
 				C894F5B42ACE1D91006AFCD3 /* RatesApi.swift in Sources */,
 				C817EC642AE1FB0D004AFF3B /* RatesFluctuationView.swift in Sources */,
 				C817EC662AE20A02004AFF3B /* Extensions.swift in Sources */,
+				C817EC6B2AE35554004AFF3B /* TimeRangeEnum.swift in Sources */,
 				C89082E62AE0152F000C1195 /* RatesFluctuationDataProvider.swift in Sources */,
 				C89082E12AE012E4000C1195 /* CurrencyStore.swift in Sources */,
 			);

@@ -9,6 +9,15 @@ import Foundation
 import SwiftUI
 
 extension Double {
+    
+    var color: Color {
+            if self.sign == .minus {
+                return .red
+            } else {
+                return .green
+            }
+        }
+    
     func formatter(decimalPlaces: Int, with changeSymbol: Bool = false) -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
@@ -41,5 +50,39 @@ extension Double {
         }
         
         return "\(value)%"
+    }
+}
+
+extension String {
+    func toDate(dateFormat: String = "yyyy-MM-dd") -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = dateFormat
+        
+        return dateFormatter.date(from: self) ?? Date()
+    }
+}
+
+extension Date {
+    
+    init(from component: Calendar.Component, value: Int) {
+        self = Calendar.current.date(byAdding: component, value: -value, to: Date()) ?? Date()
+    }
+    
+    func formatter(to dateFormat: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "pt_BR_POSIX")
+        dateFormatter.dateFormat = dateFormat
+        return dateFormatter.string(from: self)
+    }
+    
+    func toString(dateFormat: String = "yyyy-MM-dd") -> String {
+        return formatter(to: dateFormat)
+    }
+}
+
+extension UINavigationController {
+    
+    open override func viewWillLayoutSubviews() {
+        navigationBar.topItem?.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 }
