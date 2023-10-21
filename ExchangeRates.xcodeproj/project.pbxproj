@@ -11,6 +11,8 @@
 		C817EC662AE20A02004AFF3B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C817EC652AE20A02004AFF3B /* Extensions.swift */; };
 		C817EC682AE34DE7004AFF3B /* RateFluctuationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C817EC672AE34DE7004AFF3B /* RateFluctuationDetailView.swift */; };
 		C817EC6B2AE35554004AFF3B /* TimeRangeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = C817EC6A2AE35554004AFF3B /* TimeRangeEnum.swift */; };
+		C817EC6D2AE39623004AFF3B /* BaseCurrencyFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C817EC6C2AE39622004AFF3B /* BaseCurrencyFilterView.swift */; };
+		C817EC6F2AE3963B004AFF3B /* MultiCurrenciesFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C817EC6E2AE3963B004AFF3B /* MultiCurrenciesFilterView.swift */; };
 		C89082D62ADF4B54000C1195 /* BaseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89082D52ADF4B54000C1195 /* BaseStore.swift */; };
 		C89082D92AE00B0C000C1195 /* RatesFluctuationObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89082D82AE00B0C000C1195 /* RatesFluctuationObject.swift */; };
 		C89082DB2AE00E60000C1195 /* CurrencySymbolObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89082DA2AE00E60000C1195 /* CurrencySymbolObject.swift */; };
@@ -35,6 +37,8 @@
 		C817EC652AE20A02004AFF3B /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C817EC672AE34DE7004AFF3B /* RateFluctuationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateFluctuationDetailView.swift; sourceTree = "<group>"; };
 		C817EC6A2AE35554004AFF3B /* TimeRangeEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeRangeEnum.swift; sourceTree = "<group>"; };
+		C817EC6C2AE39622004AFF3B /* BaseCurrencyFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCurrencyFilterView.swift; sourceTree = "<group>"; };
+		C817EC6E2AE3963B004AFF3B /* MultiCurrenciesFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiCurrenciesFilterView.swift; sourceTree = "<group>"; };
 		C89082D52ADF4B54000C1195 /* BaseStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseStore.swift; sourceTree = "<group>"; };
 		C89082D82AE00B0C000C1195 /* RatesFluctuationObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatesFluctuationObject.swift; sourceTree = "<group>"; };
 		C89082DA2AE00E60000C1195 /* CurrencySymbolObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencySymbolObject.swift; sourceTree = "<group>"; };
@@ -72,6 +76,8 @@
 				C894F5A42ACE1451006AFCD3 /* ContentView.swift */,
 				C817EC632AE1FB0D004AFF3B /* RatesFluctuationView.swift */,
 				C817EC672AE34DE7004AFF3B /* RateFluctuationDetailView.swift */,
+				C817EC6C2AE39622004AFF3B /* BaseCurrencyFilterView.swift */,
+				C817EC6E2AE3963B004AFF3B /* MultiCurrenciesFilterView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -274,6 +280,7 @@
 				C89082DD2AE00EC2000C1195 /* RatesHistoricalObject.swift in Sources */,
 				C894F5A52ACE1451006AFCD3 /* ContentView.swift in Sources */,
 				C894F5A32ACE1451006AFCD3 /* ExchangeRatesApp.swift in Sources */,
+				C817EC6D2AE39623004AFF3B /* BaseCurrencyFilterView.swift in Sources */,
 				C89082E82AE01632000C1195 /* RatesHistoricalDataProvider.swift in Sources */,
 				C89082DB2AE00E60000C1195 /* CurrencySymbolObject.swift in Sources */,
 				C89082DF2AE010F2000C1195 /* RatesStore.swift in Sources */,
@@ -287,6 +294,7 @@
 				C817EC6B2AE35554004AFF3B /* TimeRangeEnum.swift in Sources */,
 				C89082E62AE0152F000C1195 /* RatesFluctuationDataProvider.swift in Sources */,
 				C89082E12AE012E4000C1195 /* CurrencyStore.swift in Sources */,
+				C817EC6F2AE3963B004AFF3B /* MultiCurrenciesFilterView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
