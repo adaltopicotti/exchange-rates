@@ -7,32 +7,28 @@
 
 import SwiftUI
 
-
-class MultiCurrenciesFilterViewModel: ObservableObject {
-    @Published var symbols: [Symbol] = [
-        Symbol(symbol: "BRL", fullName: "Brazilian Real"),
-        Symbol(symbol: "EUR", fullName: "Euro"),
-        Symbol(symbol: "GBP", fullName: "British Pound Sterling"),
-        Symbol(symbol: "JPY", fullName: "Japanese Yen"),
-        Symbol(symbol: "USD", fullName: "United States Dollar")
-    ]
+protocol MultiCurrenciesFilterViewDelegate {
+    func didSelected(_ currencies: [String])
 }
 
 struct MultiCurrenciesFilterView: View {
     
     @Environment(\.dismiss) var dismiss
     
-    @StateObject var viewModel = MultiCurrenciesFilterViewModel()
+    @StateObject var viewModel = ViewModel()
     
     @State private var selections: [String] = []
     @State private var searchText = ""
     
+    var delegate: MultiCurrenciesFilterViewDelegate?
     
-    var searchResults: [Symbol] {
+    
+    
+    var searchResults: [CurrencySymbolModel] {
         if searchText.isEmpty {
-            return viewModel.symbols
+            return viewModel.currencySymbols
         } else {
-            return viewModel.symbols.filter {
+            return viewModel.currencySymbols.filter {
                 $0.symbol.contains(searchText.uppercased()) || $0.fullName.uppercased().contains(searchText.uppercased())
             }
         }
@@ -41,6 +37,9 @@ struct MultiCurrenciesFilterView: View {
     var body: some View {
         NavigationView {
             listCurrenciesView
+        }
+        .onAppear {
+            viewModel.doFetchCurrencySymbols()
         }
     }
     
@@ -76,9 +75,10 @@ struct MultiCurrenciesFilterView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             Button {
+                delegate?.didSelected(selections)
                 dismiss()
             } label: {
-                Text("OK")
+                Text(selections.isEmpty ? "Cancelar" : "OK")
                     .fontWeight(.bold)
             }
         }
