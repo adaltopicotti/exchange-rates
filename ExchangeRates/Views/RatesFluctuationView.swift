@@ -7,52 +7,59 @@
 
 import SwiftUI
 
-
-
 struct RatesFluctuationView: View {
     
     @StateObject var viewModel = ViewModel()
     
     @State private var searchText = ""
+    @State private var viewDidLoad = true
     @State private var isPresentedBaseCurrencyFilter = false
-    @State private var isPresentedMultiCurrenciesFilter = false
-    
-    var searchResult: [RateFluctuationModel] {
-        if searchText.isEmpty {
-            return viewModel.ratesFluctuations
-        } else {
-            return viewModel.ratesFluctuations.filter {
-                $0.symbol.contains(searchText.uppercased()) ||
-                $0.change.formatter(decimalPlaces: 4).contains(searchText.uppercased()) ||
-                $0.changePct.toPercentage().contains(searchText.uppercased()) ||
-                $0.endRate.formatter(decimalPlaces: 2).contains(searchText.uppercased())
-            }
-        }
-    }
-    
+    @State private var isPresentedMultiCurrencyFilter = false
     
     var body: some View {
         NavigationView {
             VStack {
-                baseCurrencyPeriodFilterView
-                ratesFluctuationListView
+                if case .loading = viewModel.currentState {
+                    ProgressView()
+                        .scaleEffect(2.2, anchor: .center)
+                } else if case .success = viewModel.currentState {
+                    baseCurrencyPeriodFilterView
+                    ratesFluctuationListView
+                } else if case .failure = viewModel.currentState {
+                    erroView
+                }
             }
-            .searchable(text: $searchText)
+            .searchable(text: $searchText, prompt: "Procurar moeda")
+            .onChange(of: searchText) { searchText in
+                if searchText.isEmpty {
+                    viewModel.searchResults = viewModel.ratesFluctuation
+                } else {
+                    viewModel.searchResults = viewModel.ratesFluctuation.filter {
+                        $0.symbol.contains(searchText.uppercased()) ||
+                        $0.change.formatter(decimalPlaces: 6).contains(searchText) ||
+                        $0.changePct.formatter(decimalPlaces: 6).contains(searchText) ||
+                        $0.endRate.formatter(decimalPlaces: 6).contains(searchText)
+                    }
+                }
+            }
             .navigationTitle("Conversão de Moedas")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 Button {
-                    isPresentedMultiCurrenciesFilter.toggle()
+                    isPresentedMultiCurrencyFilter.toggle()
                 } label: {
                     Image(systemName: "slider.horizontal.3")
                 }
-                .fullScreenCover(isPresented: $isPresentedMultiCurrenciesFilter) {
+                .fullScreenCover(isPresented: $isPresentedMultiCurrencyFilter) {
                     MultiCurrenciesFilterView(delegate: self)
                 }
             }
         }
         .onAppear {
-            viewModel.doFetchRatesFluctuation(timeRange: .today)
+            if viewDidLoad {
+                viewDidLoad.toggle()
+                viewModel.doFetchRatesFluctuation(timeRange: .today)
+            }
         }
     }
     
@@ -64,17 +71,16 @@ struct RatesFluctuationView: View {
                 Text(viewModel.baseCurrency)
                     .font(.system(size: 14, weight: .bold))
                     .padding(.init(top: 4, leading: 8, bottom: 4, trailing: 8))
-                    .background(Color(UIColor.lightGray))
                     .foregroundColor(.white)
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(.white, lineWidth: 1)
                     )
-       
             }
             .fullScreenCover(isPresented: $isPresentedBaseCurrencyFilter, content: {
                 BaseCurrencyFilterView(delegate: self)
             })
+            .background(Color(UIColor.lightGray))
             .cornerRadius(8)
             
             Button {
@@ -127,10 +133,8 @@ struct RatesFluctuationView: View {
     }
     
     private var ratesFluctuationListView: some View {
-        List(searchResult) { fluctuation in
-            NavigationLink {
-                RateFluctuationDetailView(baseCurrency: viewModel.baseCurrency, rateFluctuation: fluctuation)
-            } label: {
+        List(viewModel.searchResults) { fluctuation in
+            NavigationLink(destination: RateFluctuationDetailView(baseCurrency: viewModel.baseCurrency, fromCurrency: fluctuation.symbol)) {
                 VStack {
                     HStack(alignment: .center, spacing: 8) {
                         Text("\(fluctuation.symbol) / \(viewModel.baseCurrency)")
@@ -140,10 +144,10 @@ struct RatesFluctuationView: View {
                             .frame(maxWidth: .infinity, alignment: .trailing)
                         Text(fluctuation.change.formatter(decimalPlaces: 4, with: true))
                             .font(.system(size: 14, weight: .bold))
-                            .foregroundColor(fluctuation.change < 0 ? Color.red : Color.green)
+                            .foregroundColor(fluctuation.change.color)
                         Text("(\(fluctuation.changePct.toPercentage()))")
                             .font(.system(size: 14, weight: .bold))
-                            .foregroundColor(fluctuation.change < 0 ? Color.red : Color.green)
+                            .foregroundColor(fluctuation.changePct.color)
                     }
                     Divider()
                         .padding(.leading, -20)
@@ -154,10 +158,35 @@ struct RatesFluctuationView: View {
         }
         .listStyle(.plain)
     }
-
+    
+    private var erroView: some View {
+        VStack(alignment: .center) {
+            Spacer()
+            
+            Image(systemName: "wifi.exclamationmark")
+                .resizable()
+                .frame(width: 60, height: 44)
+                .padding(.bottom, 4)
+            
+            Text("Ocorreu um erro na busca das flutuações das taxas!")
+                .font(.headline.bold())
+                .multilineTextAlignment(.center)
+            
+            Button {
+                viewModel.doFetchRatesFluctuation(timeRange: .today)
+            } label: {
+                Text("Tentar novamente?")
+            }
+            .padding(.top, 4)
+            
+            Spacer()
+        }
+        .padding()
+    }
 }
 
 extension RatesFluctuationView: BaseCurrencyFilterViewDelegate {
+    
     func didSelected(_ baseCurrency: String) {
         viewModel.baseCurrency = baseCurrency
         viewModel.doFetchRatesFluctuation(timeRange: .today)
@@ -165,6 +194,7 @@ extension RatesFluctuationView: BaseCurrencyFilterViewDelegate {
 }
 
 extension RatesFluctuationView: MultiCurrenciesFilterViewDelegate {
+    
     func didSelected(_ currencies: [String]) {
         viewModel.currencies = currencies
         viewModel.doFetchRatesFluctuation(timeRange: .today)

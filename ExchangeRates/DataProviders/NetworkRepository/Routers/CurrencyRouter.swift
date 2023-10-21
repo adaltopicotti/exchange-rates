@@ -8,6 +8,7 @@
 import Foundation
 
 enum CurrencyRouter {
+    
     case symbols
     
     var path: String {
@@ -16,7 +17,7 @@ enum CurrencyRouter {
         }
     }
     
-    func asUrlRequest() throws -> URLRequest? {
+    func asUrlRequest() -> URLRequest? {
         guard let url = URL(string: RatesApi.baseUrl) else { return nil }
         
         switch self {
@@ -27,4 +28,5 @@ enum CurrencyRouter {
             return request
         }
     }
+    
 }

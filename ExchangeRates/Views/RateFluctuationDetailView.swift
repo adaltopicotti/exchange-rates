@@ -8,37 +8,38 @@
 import SwiftUI
 import Charts
 
-
 struct RateFluctuationDetailView: View {
-
+    
     @StateObject var viewModel = ViewModel()
     
     @State var baseCurrency: String
-    @State var rateFluctuation: RateFluctuationModel
+    @State var fromCurrency: String
     @State private var isPresentedBaseCurrencyFilter = false
     
     var body: some View {
         ScrollView(showsIndicators: false) {
             valuesView
             graphicChartView
+            comparationView
         }
-        .padding(.vertical, 8)
+        .padding(.leading, 8)
+        .padding(.trailing, 8)
         .navigationTitle(viewModel.title)
         .onAppear {
-            viewModel.startStateView(baseCurrency: baseCurrency, rateFluctuation: rateFluctuation, timeRange: .today)
+            viewModel.startStateView(baseCurrency: baseCurrency, fromCurrency: fromCurrency, timeRange: .today)
         }
     }
     
     private var valuesView: some View {
         HStack(alignment: .center, spacing: 8) {
             Text(viewModel.endRate.formatter(decimalPlaces: 4))
-                .font(.system(size: 28, weight: .bold))
+                .font(.system(size: 22, weight: .bold))
             Text(viewModel.changePct.toPercentage(with: true))
-                .font(.system(size: 18, weight: .semibold))
+                .font(.system(size: 16, weight: .semibold))
                 .foregroundColor(viewModel.changePct.color)
                 .background(viewModel.changePct.color.opacity(0.2))
             Text(viewModel.changeDescription)
-                .font(.system(size: 18, weight: .semibold))
+                .font(.system(size: 16, weight: .semibold))
                 .foregroundColor(viewModel.change.color)
             Spacer()
         }
@@ -49,7 +50,6 @@ struct RateFluctuationDetailView: View {
         VStack {
             periodFilterView
             lineChartView
-            comparationView
         }
         .padding(.top, 8)
         .padding(.bottom, 8)
@@ -102,7 +102,6 @@ struct RateFluctuationDetailView: View {
                     .underline(viewModel.timeRange == .thisYear)
             }
         }
-        
     }
     
     private var lineChartView: some View {
@@ -126,7 +125,7 @@ struct RateFluctuationDetailView: View {
             }
         }
         .chartXAxis {
-            AxisMarks(preset: .aligned,values: .stride(by: viewModel.xAxisStride, count: viewModel.xAxisStrideCount)) { date in
+            AxisMarks(preset: .aligned, values: .stride(by: viewModel.xAxisStride, count: viewModel.xAxisStrideCount)) { date in
                 AxisGridLine()
                 AxisValueLabel(viewModel.xAxisLabelFormatStyle(for: date.as(Date.self) ?? Date()))
             }
@@ -136,19 +135,21 @@ struct RateFluctuationDetailView: View {
                 AxisGridLine()
                 AxisValueLabel(rate.as(Double.self)?.formatter(decimalPlaces: 3) ?? 0.0.formatter(decimalPlaces: 3))
             }
+            
         }
         .chartYScale(domain: viewModel.yAxisMin...viewModel.yAxisMax)
         .frame(height: 260)
         .padding(.trailing, 18)
-        
     }
     
     private var comparationView: some View {
         VStack(spacing: 8) {
             comparationButtonView
             comparationScrollView
+            Spacer()
         }
-        .padding(.horizontal, 8)
+        .padding(.top, 8)
+        .padding(.bottom, 8)
     }
     
     private var comparationButtonView: some View {
@@ -176,15 +177,13 @@ struct RateFluctuationDetailView: View {
                             Text("\(fluctuation.symbol) / \(baseCurrency)")
                                 .font(.system(size: 14))
                                 .foregroundColor(.primary)
-                            
                             Text(fluctuation.endRate.formatter(decimalPlaces: 4))
                                 .font(.system(size: 14, weight: .semibold))
-                                .foregroundColor(.gray)
-                            
+                                .foregroundColor(.primary)
                             HStack(alignment: .bottom, spacing: 60) {
                                 Text(fluctuation.symbol)
                                     .font(.system(size: 12, weight: .semibold))
-                                    .foregroundColor(.primary)
+                                    .foregroundColor(.gray)
                                 Text(fluctuation.changePct.toPercentage())
                                     .font(.system(size: 14, weight: .semibold))
                                     .foregroundColor(fluctuation.changePct.color)
@@ -204,6 +203,7 @@ struct RateFluctuationDetailView: View {
 }
 
 extension RateFluctuationDetailView: BaseCurrencyFilterViewDelegate {
+    
     func didSelected(_ baseCurrency: String) {
         viewModel.doFilter(by: baseCurrency)
     }
@@ -211,6 +211,6 @@ extension RateFluctuationDetailView: BaseCurrencyFilterViewDelegate {
 
 struct RateFluctuationDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        RateFluctuationDetailView(baseCurrency: "BRL", rateFluctuation: RateFluctuationModel(symbol: "EUR", change: 0.0003, changePct: 0.1651, endRate: 0.181353))
+        RateFluctuationDetailView(baseCurrency: "BRL", fromCurrency: "USD")
     }
 }

@@ -8,19 +8,18 @@
 import Foundation
 
 enum RatesRouter {
+    
     case fluctuation(base: String, symbols: [String], startDate: String, endDate: String)
     case timeseries(base: String, symbol: String, startDate: String, endDate: String)
     
     var path: String {
         switch self {
-        case .fluctuation:
-            return RatesApi.fluctuation
-        case .timeseries:
-            return RatesApi.timeseries
+        case .fluctuation: return RatesApi.fluctuation
+        case .timeseries: return RatesApi.timeseries
         }
     }
     
-    func asUrlRequest() throws -> URLRequest? {
+    func asUrlRequest() -> URLRequest? {
         guard var url = URL(string: RatesApi.baseUrl) else { return nil }
         
         switch self {
@@ -45,4 +44,5 @@ enum RatesRouter {
         request.addValue(RatesApi.apiKey, forHTTPHeaderField: "apikey")
         return request
     }
+    
 }
